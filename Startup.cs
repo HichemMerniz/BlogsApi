@@ -2,10 +2,13 @@ using BlogsApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using BlogsApi.Data.Repositories;
+
 
 namespace BlogsApi
 {
@@ -27,8 +30,10 @@ namespace BlogsApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BlogsApi", Version = "v1" });
             });
-            services.AddEntityFrameworkNpgsql().AddDbContext<BlogDBContext>(opt => 
-            opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<BlogDBContext>(opt => 
+            opt.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IUserRepository,UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

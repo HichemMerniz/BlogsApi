@@ -8,9 +8,9 @@ namespace BlogsApi.Dtos
 {
     public class LoginDto
     {
-        [Required,EmailAddress]
+        [Required(ErrorMessage = "Email is required"), EmailAddress]
         public string Email{ get; set; }
-        [Required]
+        [Required(ErrorMessage = "Email is required")]
         public string Password{ get; set; }
     }
 }

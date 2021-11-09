@@ -12,9 +12,9 @@ namespace BlogsApi.Dtos
         public string FullName { get; set; }
         [Required,EmailAddress]
         public string Email { get; set; }
-        [Required]
+        [Required,MinLength(8)]
         public string Password { get; set; }
+       
  
-        public DateTime Birthday{ get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace BlogsApi.Data.Repositories
 {
     public interface IUserRepository
     {
-        Users Register(Users user);
-        Users GetByEmail(string email);
+        //Users Register(Users user);
+       // Users GetByEmail(string email);
     }
 }

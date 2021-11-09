@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace BlogsApi.Data.Repositories
 {
-    public class UserRepository : IUserRepository
-    {
+    public class UserRepository /*: IUserRepository*/
+    {/*
         private readonly BlogDBContext _blogDBContext;
         public UserRepository(BlogDBContext blogDBContext)
         {
@@ -24,6 +24,6 @@ namespace BlogsApi.Data.Repositories
         public Users GetByEmail(string email)
         {
             return _blogDBContext.Users.Where(u => u.Email == email).SingleOrDefault();
-        }
+        }*/
     }
 }

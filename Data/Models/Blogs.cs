@@ -1,6 +1,6 @@
 ﻿namespace BlogsApi.Models
 {
-    public class Blogs
+    public class BlogsM
     {
         public int Id { get; set; }
         public string Title { get; set; }

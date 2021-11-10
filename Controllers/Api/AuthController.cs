@@ -1,6 +1,5 @@
 ﻿
 using BlogsApi.Dtos;
-
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -21,11 +20,11 @@ namespace BlogsApi.Controllers.Api
     [ApiController]
     public class AuthController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<Users> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public AuthController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthController(UserManager<Users> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -35,10 +34,11 @@ namespace BlogsApi.Controllers.Api
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
             var userExists = await _userManager.FindByEmailAsync(registerDto.Email);
+            Console.WriteLine($"debug => {userExists}");
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-            var user = new IdentityUser
+            var user = new Users
             {
                 Email = registerDto.Email,
                 UserName = registerDto.FullName,

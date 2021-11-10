@@ -1,3 +1,5 @@
+using BlogsApi.Data.Repositories;
+using BlogsApi.Data.Repositories.Blogs;
 using BlogsApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -58,6 +60,8 @@ namespace BlogsApi
             services.AddDbContext<BlogDBContext>(opt =>
             opt.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddScoped<IBlogRepository, BlogRepository>();
+
             // For Identity
             services.AddIdentity<Users, IdentityRole>()
             .AddEntityFrameworkStores<BlogDBContext>()
@@ -91,11 +95,15 @@ namespace BlogsApi
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    RequireExpirationTime = false,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtConfig:SecretKey"]))
                 };
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,9 +120,8 @@ namespace BlogsApi
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

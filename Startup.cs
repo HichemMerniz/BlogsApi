@@ -59,12 +59,12 @@ namespace BlogsApi
             opt.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
 
             // For Identity
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<Users, IdentityRole>()
             .AddEntityFrameworkStores<BlogDBContext>()
             .AddDefaultTokenProviders();
 
 
-            services.AddIdentityCore<IdentityUser>(o =>
+            services.AddIdentityCore<Users>(o =>
             {
                 o.Password.RequireDigit = false;
                 o.Password.RequireLowercase = false;

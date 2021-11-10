@@ -6,7 +6,7 @@ using System;
 
 namespace BlogsApi.Models
 {
-    public class BlogDBContext : IdentityDbContext
+    public class BlogDBContext : IdentityDbContext<Users>
     {
         public BlogDBContext(DbContextOptions<BlogDBContext> opt) : base(opt)
         {
@@ -49,6 +49,7 @@ namespace BlogsApi.Models
         }
 
         public DbSet<Blogs> Blogs{ get; set; }
+        //public DbSet<Users> Users{ get; set; }
         public DbSet<Comments> Comments { get; set; }
     }
 }

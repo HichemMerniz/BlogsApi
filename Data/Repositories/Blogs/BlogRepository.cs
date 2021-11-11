@@ -11,6 +11,7 @@ namespace BlogsApi.Data.Repositories.Blogs
     public class BlogRepository : IBlogRepository
     {
         private readonly BlogDBContext _blogDBContext;
+
         public BlogRepository(BlogDBContext blogDBContext)
         {
             _blogDBContext = blogDBContext;
@@ -32,12 +33,28 @@ namespace BlogsApi.Data.Repositories.Blogs
             return _blogDBContext.Set<BlogsM>().ToList();
         }
 
-        public BlogsM Update(int id, BlogsM blogs)
+        public BlogsM Update(BlogsM blogChanges)
         {
-            _blogDBContext.Entry(blogs).State = EntityState.Modified;
+            var blog = _blogDBContext.Set<BlogsM>().FirstOrDefault(b => b.Id == blogChanges.Id);
+            
+            if (blog == null)
+            {
+                return blog;
+            }
+            _blogDBContext.Set<BlogsM>().Update(blogChanges);
             _blogDBContext.SaveChanges();
-            return blogs;
+            /* if(blog != null)
+             {
+                     blog.Title = blogChanges.Title;
+                     blog.Description=blogChanges.Description;
+                     blog.Images=blogChanges.Images;
+                     blog.AuthorId=blogChanges.AuthorId;
+             };            
+             _blogDBContext.SaveChanges();*/
+
+            return blogChanges; 
         }
+
         public BlogsM Delete(int id)
         {
             var blog = _blogDBContext.Set<BlogsM>().FirstOrDefault(b => b.Id == id);

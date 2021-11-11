@@ -11,7 +11,7 @@ namespace BlogsApi.Data.Repositories
         List<BlogsM> GetAllBlogs();
         BlogsM Get(int id);
         BlogsM Add(BlogsM blogs);
-        BlogsM Update(int id, BlogsM blogs);
+        BlogsM Update(BlogsM blogs);
         BlogsM Delete(int id);
     }
 }

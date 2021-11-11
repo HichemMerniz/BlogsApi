@@ -1,4 +1,6 @@
-﻿namespace BlogsApi.Models
+﻿using System;
+
+namespace BlogsApi.Models
 {
     public class Comments
     {

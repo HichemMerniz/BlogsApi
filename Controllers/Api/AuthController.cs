@@ -21,10 +21,10 @@ namespace BlogsApi.Controllers.Api
     public class AuthController : Controller
     {
         private readonly UserManager<Users> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public AuthController(UserManager<Users> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthController(UserManager<Users> userManager, RoleManager<IdentityRole<int>> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -55,9 +55,9 @@ namespace BlogsApi.Controllers.Api
                 return BadRequest(ModelState);
             }
             if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+                await _roleManager.CreateAsync(new IdentityRole<int>(UserRoles.Admin));
             if (!await _roleManager.RoleExistsAsync(UserRoles.User))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+                await _roleManager.CreateAsync(new IdentityRole<int>(UserRoles.User));
 
             if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
             {

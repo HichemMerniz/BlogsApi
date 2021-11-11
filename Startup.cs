@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Text;
 
 namespace BlogsApi
@@ -63,9 +64,10 @@ namespace BlogsApi
             services.AddScoped<IBlogRepository, BlogRepository>();
 
             // For Identity
-            services.AddIdentity<Users, IdentityRole>()
+            services.AddIdentity<Users, IdentityRole<int>>()
             .AddEntityFrameworkStores<BlogDBContext>()
             .AddDefaultTokenProviders();
+           
 
 
             services.AddIdentityCore<Users>(o =>

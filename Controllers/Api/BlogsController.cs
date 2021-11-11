@@ -44,8 +44,9 @@ namespace BlogsApi.Controllers.Api
                 Description = blogsDto.Description,
                 AuthorId = blogsDto.AuthorId,
             };
-            
-            return Created("Success", _blogRepository.Add(blogs));
+           var blogCreated = _blogRepository.Add(blogs);
+            ;
+            return Ok(new {message = "success",data = blogs });
         }
 
         [HttpPut("{id}")]

@@ -17,7 +17,7 @@ namespace BlogsApi.Migrations
                 .HasAnnotation("ProductVersion", "3.1.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("BlogsApi.Models.Blogs", b =>
+            modelBuilder.Entity("BlogsApi.Models.BlogsM", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,6 +36,8 @@ namespace BlogsApi.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Blogs");
                 });
@@ -62,8 +64,9 @@ namespace BlogsApi.Migrations
 
             modelBuilder.Entity("BlogsApi.Models.Users", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(767)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -137,6 +140,27 @@ namespace BlogsApi.Migrations
                         .HasMaxLength(85);
 
                     b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("varchar(85)")
+                        .HasMaxLength(85);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdentityRole");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
@@ -145,8 +169,8 @@ namespace BlogsApi.Migrations
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("varchar(85)")
-                        .HasMaxLength(85);
+                        .HasColumnType("varchar(256)")
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -157,7 +181,7 @@ namespace BlogsApi.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -170,9 +194,8 @@ namespace BlogsApi.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("text");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("varchar(85)")
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int")
                         .HasMaxLength(85);
 
                     b.HasKey("Id");
@@ -185,8 +208,7 @@ namespace BlogsApi.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(85)")
-                        .HasMaxLength(85);
+                        .HasColumnType("varchar(767)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -237,7 +259,7 @@ namespace BlogsApi.Migrations
                     b.ToTable("IdentityUser");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -250,9 +272,8 @@ namespace BlogsApi.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(85)")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
                         .HasMaxLength(85);
 
                     b.HasKey("Id");
@@ -262,7 +283,7 @@ namespace BlogsApi.Migrations
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("varchar(85)")
@@ -275,9 +296,8 @@ namespace BlogsApi.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(85)")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
                         .HasMaxLength(85);
 
                     b.HasKey("LoginProvider", "ProviderKey");
@@ -287,14 +307,14 @@ namespace BlogsApi.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(85)")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
                         .HasMaxLength(85);
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("varchar(85)")
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int")
                         .HasMaxLength(85);
 
                     b.HasKey("UserId", "RoleId");
@@ -304,10 +324,10 @@ namespace BlogsApi.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(85)")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
                         .HasMaxLength(85);
 
                     b.Property<string>("LoginProvider")
@@ -326,16 +346,25 @@ namespace BlogsApi.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("BlogsApi.Models.BlogsM", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("BlogsApi.Models.Users", null)
+                        .WithMany("BlogsM")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.HasOne("BlogsApi.Models.Users", null)
                         .WithMany()
@@ -344,7 +373,7 @@ namespace BlogsApi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.HasOne("BlogsApi.Models.Users", null)
                         .WithMany()
@@ -353,9 +382,9 @@ namespace BlogsApi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -368,7 +397,7 @@ namespace BlogsApi.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.HasOne("BlogsApi.Models.Users", null)
                         .WithMany()
